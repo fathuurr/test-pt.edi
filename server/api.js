@@ -32,6 +32,21 @@ router.get('/getUsers', (req, res) => {
   });
 });
 
+router.put('/updateUser/:id', (req, res) => {
+  const { namalengkap, username, password, status } = req.body;
+  const id = req.params.id;
+  const query = `UPDATE users SET namalengkap=?, username=?, password=?, status=? WHERE userid=${id}`;
+  console.log(query);
+  db.query(query, [namalengkap, username, password, status], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error updating user');
+    } else {
+      res.send('User updated successfully');
+    }
+  });
+});
+
 router.delete('/deleteUser/:id', (req, res) => {
   const id = req.params.id;
   const query = 'DELETE FROM users WHERE userid=?';
